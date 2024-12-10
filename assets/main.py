@@ -7,4 +7,4 @@ Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 def read_root():
-    return {"message": "FastAPI com Docker e PostgreSQL!"}
+    return {"message": "API de Gestão de Ativos"}
