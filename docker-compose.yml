@@ -1,18 +1,5 @@
 version: "3.9"
 services:
-  db:
-    image: postgres:15
-    container_name: postgres_db
-    restart: always
-    environment:
-      POSTGRES_USER: assets_user
-      POSTGRES_PASSWORD: assets_password
-      POSTGRES_DB: assets_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   web:
     build:
       context: .
@@ -20,10 +7,3 @@ services:
     restart: always
     ports:
       - "8000:8000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "postgresql+psycopg2://assets_user:assets_password@db:5432/assets_db"
-
-volumes:
-  postgres_data:
