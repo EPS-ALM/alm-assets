@@ -36,7 +36,7 @@ def get_optimal_allocations(tickers):
     return portfolio, image_base64
 
 def run_simulations(tickers, media_retornos, matriz_cov):
-    N = 100000
+    N = 10000
     retornos_esperados = np.zeros(N)
     volatilidades_esperadas = np.zeros(N)
     tabela_sharpe = np.zeros(N)
