@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from controllers.markowitz_controller import get_optimal_allocations
-from models.asset_request import AssetRequest
+from assets.controllers.markowitz_controller import get_optimal_allocations
+from assets.models.asset_request import AssetRequest
 markowitz  = APIRouter()
 
 @markowitz.post("/markowitz/")

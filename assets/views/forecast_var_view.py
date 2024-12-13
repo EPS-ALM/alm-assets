@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 import pandas as pd
-from models.asset_request import AssetRequest
-from controllers.forecast_var_controller import fetch_data, calculate_metrics, calculate_allocation, forecast_with_var
+from assets.models.asset_request import AssetRequest
+from assets.controllers.forecast_var_controller import fetch_data, calculate_metrics, calculate_allocation, forecast_with_var
 
 forecast_var  = APIRouter()
 

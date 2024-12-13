@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from views.markowitz import markowitz
-from views.forecast_var_view import forecast_var
+from assets.views.markowitz import markowitz
+from assets.views.forecast_var_view import forecast_var
 
 app = FastAPI()
 
