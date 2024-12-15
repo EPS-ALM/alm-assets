@@ -1,4 +1,5 @@
 # alm-assets (ativos)
+
 Repositório destinado ao serviço de ativos do projeto ALM
 
 ## Estrutura do Projeto
@@ -30,8 +31,8 @@ assets/
 
 - docker-compose up --build
 
-
 ## Acesse a API
+
 Depois de subir os containers, você pode acessar a API através dos seguintes endpoints:
 
 Documentação interativa (Swagger): http://localhost:8000/docs
@@ -39,7 +40,7 @@ Raiz da aplicação: http://localhost:8000
 
 ### Exemplo de Uso do Endpoint `/forecast_var`
 
-O endpoint `POST /forecast_var` é utilizado para obter previsões de variação de preços de ativos financeiros com base em seus *tickers*. 
+O endpoint `POST /forecast_var` é utilizado para obter previsões de variação de preços de ativos financeiros com base em seus _tickers_.
 
 #### Detalhes do Endpoint
 
@@ -50,7 +51,7 @@ O endpoint `POST /forecast_var` é utilizado para obter previsões de variação
 
 #### Corpo da Requisição
 
-O corpo da requisição deve ser enviado em formato JSON e conter o campo obrigatório `tickers`, que é uma lista de símbolos (*tickers*) representando os ativos financeiros.
+O corpo da requisição deve ser enviado em formato JSON e conter o campo obrigatório `tickers`, que é uma lista de símbolos (_tickers_) representando os ativos financeiros.
 
 ##### Exemplo de Corpo da Requisição
 
@@ -60,7 +61,7 @@ O corpo da requisição deve ser enviado em formato JSON e conter o campo obriga
 }
 ```
 
-- **`tickers`**: Lista de tickers a serem processados pela API. 
+- **`tickers`**: Lista de tickers a serem processados pela API.
   - `BRL=X`: Representa o câmbio Real/Dólar.
   - `PETR4.SA`, `VALE3.SA`, `WEGE3.SA`: Representam ações negociadas na bolsa brasileira (B3).
   - `GLD`: Representa um ETF de ouro.
@@ -71,20 +72,75 @@ O corpo da requisição deve ser enviado em formato JSON e conter o campo obriga
 
 ```json
 {
-  "forecast": {
-    "BRL=X": {"predicted_change": 0.005, "confidence": 0.9},
-    "PETR4.SA": {"predicted_change": -0.02, "confidence": 0.85},
-    "VALE3.SA": {"predicted_change": 0.01, "confidence": 0.92},
-    "WEGE3.SA": {"predicted_change": 0.015, "confidence": 0.88},
-    "GLD": {"predicted_change": -0.005, "confidence": 0.91}
-  }
+  "data": [
+    {
+      "ativo": "PETR4.SA",
+      "historical_metrics": {
+        "Retorno Anualizado (%)": 36.13662678530957,
+        "Volatilidade Anualizada (%)": 46.31684817679753
+      },
+      "historical_allocation": 34.320402577246675,
+      "forecast_metrics": {
+        "Retorno Anualizado (%)": 35.85450619216293,
+        "Volatilidade Anualizada (%)": 0.035459660671444425
+      },
+      "forecast_allocation": 12.919066906482621
+    },
+    {
+      "ativo": "WEGE3.SA",
+      "historical_metrics": {
+        "Retorno Anualizado (%)": 29.11819607149696,
+        "Volatilidade Anualizada (%)": 32.60396261263342
+      },
+      "historical_allocation": 39.28600259949897,
+      "forecast_metrics": {
+        "Retorno Anualizado (%)": 29.31191317945293,
+        "Volatilidade Anualizada (%)": 0.029082293069874848
+      },
+      "forecast_allocation": 12.877676061742257
+    },
+    {
+      "ativo": "VALE3.SA",
+      "historical_metrics": {
+        "Retorno Anualizado (%)": 25.594350505217463,
+        "Volatilidade Anualizada (%)": 42.65690376424875
+      },
+      "historical_allocation": 26.39359482325435,
+      "forecast_metrics": {
+        "Retorno Anualizado (%)": 25.25205924432003,
+        "Volatilidade Anualizada (%)": 0.00434806280348854
+      },
+      "forecast_allocation": 74.20325703177511
+    },
+    {
+      "ativo": "GLD",
+      "historical_metrics": {
+        "Retorno Anualizado (%)": 29.11819607149696,
+        "Volatilidade Anualizada (%)": 32.60396261263342
+      },
+      "historical_allocation": 39.28600259949897,
+      "forecast_metrics": {
+        "Retorno Anualizado (%)": 29.31191317945293,
+        "Volatilidade Anualizada (%)": 0.029082293069874848
+      },
+      "forecast_allocation": 12.877676061742257
+    },
+    {
+      "ativo": "BRL=X",
+      "historical_metrics": {
+        "Retorno Anualizado (%)": 36.13662678530957,
+        "Volatilidade Anualizada (%)": 46.31684817679753
+      },
+      "historical_allocation": 34.320402577246675,
+      "forecast_metrics": {
+        "Retorno Anualizado (%)": 35.85450619216293,
+        "Volatilidade Anualizada (%)": 0.035459660671444425
+      },
+      "forecast_allocation": 12.919066906482621
+    }
+  ]
 }
 ```
-
-- **`forecast`**: Objeto contendo as previsões para cada ativo solicitado.
-  - Cada ticker possui:
-    - **`predicted_change`**: Previsão da variação percentual do ativo (positiva ou negativa).
-    - **`confidence`**: Grau de confiança da previsão (entre 0 e 1).
 
 ##### Erro (HTTP 400)
 
