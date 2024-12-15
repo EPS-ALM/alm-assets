@@ -1,3 +1,3 @@
 [submodule "stocks-forecasting"]
-	path = stocks-forecasting
+	path = stocks_forecasting
 	url = https://github.com/EPS-ALM/stocks-forecasting.git
