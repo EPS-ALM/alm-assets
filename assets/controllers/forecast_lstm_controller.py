@@ -1,7 +1,7 @@
 import yfinance as yf
 import datetime as dt
-from ...stocks_forecasting.modelos.LSTM import get_avaible_models
-from ...stocks_forecasting.modelos.lstm_getter import get_model_prediction
+from stocks_forecasting.modelos.LSTM import get_avaible_models
+from stocks_forecasting.modelos.lstm_getter import get_model_prediction
 
 def forecast_lstm(ticker:str):
     """Realiza previsão de retornos de um ativo usando LSTM."""

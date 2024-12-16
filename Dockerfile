@@ -12,4 +12,4 @@ COPY ./assets /assets
 
 COPY ./stocks_forecasting /stocks_forecasting
 
-CMD ["uvicorn", "assets.main:app", "--host", "0.0.0.0", "--port", "8000","--timeout-keep-alive", "90", "--reload"]
+CMD ["uvicorn", "assets.main:app", "--host", "0.0.0.0", "--port", "8000"]
