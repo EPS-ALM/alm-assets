@@ -76,8 +76,9 @@ def find_hedges(input_tickers, hedge_candidates, start_date='2020-01-01', end_da
     return hedge_results
 
 def get_hedges(tickers):
-    hedge_candidates = ['TLT', 'IEF', 'SHY', 'VXX', 
-                'XLU', 'XLP', 'GDX', 'SLV', 
-                'USO', 'LQD', 'HYG', 'BND', 'JNK', 'SPXS', 'ETHU', 'TECL', 'USD']
+    hedge_candidates = ['GC=F', 'GLD', 'IAU', 'SI=F', 
+                'SLV', '^TNX', 'TLT', 'IEF', 
+                'SHY', 'TIP', 'SH', 'SDS', 'SQQQ', 'SPXS', '^VIX', 'VXX', 'XLP',
+                'PG', 'XLU', 'XLV','JPY=X', 'DX-Y.NYB', 'CL=F', 'ZC=F', 'VNQ', 'SPY']
     results = find_hedges(tickers, hedge_candidates, start_date='2018-01-01')
     return list(results.values())
