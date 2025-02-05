@@ -1,45 +1,83 @@
 import yfinance as yf
+import pandas as pd
 import numpy as np
 
-def get_asset_data(ticker):
-    """
-    Obtém dados históricos de um ativo financeiro usando a biblioteca yfinance.
-    """
-    asset = yf.Ticker(ticker)
-    hist = asset.history(period="1y")
+def find_hedges(input_tickers, hedge_candidates, start_date='2020-01-01', end_date=None):
+    if end_date is None:
+        end_date = pd.Timestamp.today().strftime('%Y-%m-%d')
     
-    if hist.empty:
-        return None
+    hedge_results = {}
     
-    return {
-        "ticker": ticker,
-        "current_price": hist["Close"].iloc[-1],
-        "volatility": np.std(hist["Close"].pct_change()) * np.sqrt(252),
-        "historical_returns": hist["Close"].pct_change().mean() * 252
-    }
+    for ticker in input_tickers:
+        try:
+            tkr_data = yf.download(ticker, start=start_date, end=end_date, progress=False)['Adj Close']
+            if len(tkr_data) < 10:
+                print(f"Not enough data for {ticker}. Skipping.")
+                continue
 
-def select_hedge_asset(candidate_tickers):
-    """
-    Seleciona um ativo de hedge com base na volatilidade e correlação negativa.
-    """
-    assets_data = []
-    
-    for ticker in candidate_tickers:
-        data = get_asset_data(ticker)
-        if data:
-            assets_data.append(data)
-    
-    if not assets_data:
-        return {"error": "Nenhum ativo válido encontrado."}
-    
-    # Ordenar ativos por menor volatilidade (critério inicial de hedge)
-    selected_asset = min(assets_data, key=lambda x: x["volatility"])
+            candidate_info = []
+            
+            for candidate in hedge_candidates:
+                try:
+                    c_data = yf.download(candidate, start=start_date, end=end_date, progress=False)['Adj Close']
+                    if len(c_data) < 10:
+                        continue
 
-    
-    return {
-        "selected_ticker": selected_asset["ticker"],
-        "price": selected_asset["current_price"],
-        "volatility": selected_asset["volatility"],
-        "expected_return": selected_asset["historical_returns"]
-    }
+                    merged = pd.concat([tkr_data, c_data], axis=1).dropna()
+                    merged.columns = [ticker, candidate]
+                    
+                    if len(merged) < 10:
+                        continue
 
+                    returns = merged.pct_change().dropna()
+                    
+                    if len(returns) < 5:
+                        continue
+
+                    correlation = returns.corr().iloc[0, 1]
+                    volatility = returns[candidate].std()
+                    
+                    candidate_info.append({
+                        'candidate': candidate,
+                        'correlation': correlation,
+                        'volatility': volatility
+                    })
+                
+                except Exception as e:
+                    continue
+
+            if not candidate_info:
+                hedge_results[ticker] = None
+                continue
+
+            df = pd.DataFrame(candidate_info)
+            negative_df = df[df['correlation'] < 0]
+            
+            if not negative_df.empty:
+                sorted_df = negative_df.sort_values(by=['correlation', 'volatility'], 
+                                                  ascending=[True, True])
+            else:
+                sorted_df = df.sort_values(by=['correlation', 'volatility'], 
+                                         ascending=[True, True])
+
+            best = sorted_df.iloc[0]
+            hedge_results[ticker] = {
+                'ticker': ticker,
+                'hedge_ticker': best['candidate'],
+                'correlation': round(best['correlation'], 4),
+                'volatility': round(best['volatility'], 6),
+                'analysis_period': f"{start_date} to {end_date}"
+            }
+        
+        except Exception as e:
+            print(f"Error processing {ticker}: {str(e)}")
+            hedge_results[ticker] = None
+    
+    return hedge_results
+
+def get_hedges(tickers):
+    hedge_candidates = ['TLT', 'GLD', 'IEF', 'SHY', 'VXX', 
+                'SQQQ', 'XLU', 'XLP', 'GDX', 'SLV', 
+                'USO', 'LQD', 'HYG', 'BND', 'JNK', 'SPXS', 'ETHU', 'TECL', 'USD']
+    results = find_hedges(tickers, hedge_candidates, start_date='2018-01-01')
+    return list(results.values())

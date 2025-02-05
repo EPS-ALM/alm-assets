@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from assets.controllers.hedge_controller import select_hedge_asset
+from assets.controllers.hedge_controller import get_hedges
 from assets.models.asset_request import AssetRequest
 
 
@@ -12,4 +12,4 @@ def get_hedge_suggestion(asset_request: AssetRequest):
     Exemplo: /hedge/select?tickers=AAPL,MSFT,GOOGL
     """
 
-    return select_hedge_asset(asset_request.tickers)
+    return get_hedges(asset_request.tickers)
