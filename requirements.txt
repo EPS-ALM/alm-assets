@@ -21,3 +21,8 @@ datetime
 numpy
 scipy
 matplotlib
+joblib
+tensorflow
+keras
+plotly
+scikit-learn

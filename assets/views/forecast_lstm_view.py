@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-import pandas as pd
 from assets.models.forecast_request import ForecastRequest
-from assets.controllers.forecast_lstm_controller import forecast_lstm, get_avaible_models
+from assets.controllers.forecast_lstm_controller import forecast_lstm
+from stocks_forecasting.modelos.LSTM import get_avaible_models
 
 forecast_lstm  = APIRouter()
 
