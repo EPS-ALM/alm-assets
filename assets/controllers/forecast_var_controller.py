@@ -5,7 +5,7 @@ from statsmodels.tsa.api import VAR
 
 def fetch_data(tickers, period="10y"):
     """Obtém dados históricos dos ativos usando yfinance."""
-    data = yf.download(tickers, period=period)["Adj Close"]
+    data = yf.download(tickers, period=period)
     if data.empty:
         raise ValueError("Nenhum dado foi retornado para os tickers fornecidos.")
     data = data.dropna()  # Remove valores NaN
