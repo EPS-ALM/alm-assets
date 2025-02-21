@@ -1,13 +1,5 @@
 import pandas as pd
 from fastapi import HTTPException
-import sys
-import os
-
-# Add the submodule directory to Python path
-current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-submodule_path = os.path.join(current_dir, "stocks-forecasting")
-sys.path.append(submodule_path)
-
 from modelos.SARIMA import SARIMAModel
 from assets.models.forecast_sarima_model import ForecastRequest
 

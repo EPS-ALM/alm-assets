@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import yfinance as yf
 from pytz import timezone
 from assets.controllers.forecast_var_controller import fetch_data
+from modelos.SARIMA import SARIMAModel
 
 def get_stock_data(days=100, ticker='VALE3.SA', delay_days=0):
     """
