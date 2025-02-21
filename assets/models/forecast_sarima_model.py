@@ -15,3 +15,4 @@ class ForecastResponse(BaseModel):
     forecast_dates: List[str]
     forecast_values: List[float]
     metrics: Optional[dict] = None 
+    plot_base64: Optional[str] = None

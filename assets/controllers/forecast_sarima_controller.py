@@ -21,7 +21,10 @@ async def generate_forecast(request: ForecastRequest):
         model.train(data)
         
         # Make predictions
-        predictions = model.predict(request.n_steps)
+        predictions = model.predict(stock_data=data, n_steps=request.n_steps, start_idx=len(data))
+        
+        # Generate plot with both data and predictions
+        plot_base64 = model.generate_plot(stock_data=data, predictions=predictions)
         
         # Format response
         forecast_dates = predictions.index.strftime('%Y-%m-%d').tolist()
@@ -29,7 +32,8 @@ async def generate_forecast(request: ForecastRequest):
         
         return {
             "forecast_dates": forecast_dates,
-            "forecast_values": forecast_values
+            "forecast_values": forecast_values,
+            "plot_base64": plot_base64
         }
         
     except Exception as e:

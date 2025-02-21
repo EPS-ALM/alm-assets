@@ -2,6 +2,7 @@ from assets.views.markowitz import markowitz
 from assets.views.forecast_var_view import forecast_var
 from assets.views.hedge_view import hedge
 from assets.views.forecast_sarima_view import forecast_sarima
+from assets.views.forecast_lstm_view import forecast_lstm
 
 from fastapi import FastAPI
 
@@ -15,6 +16,7 @@ app.include_router(markowitz)
 app.include_router(forecast_var)
 app.include_router(hedge)
 app.include_router(forecast_sarima)
+app.include_router(forecast_lstm)
 
 @app.get("/")
 def read_root():

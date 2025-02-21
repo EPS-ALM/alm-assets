@@ -10,7 +10,7 @@ def find_hedges(input_tickers, hedge_candidates, start_date='2020-01-01', end_da
     
     for ticker in input_tickers:
         try:
-            tkr_data = yf.download(ticker, start=start_date, end=end_date, progress=False)['Adj Close']
+            tkr_data = yf.download(ticker, start=start_date, end=end_date, progress=False)['Close']
             if len(tkr_data) < 10:
                 print(f"Not enough data for {ticker}. Skipping.")
                 continue
@@ -19,7 +19,7 @@ def find_hedges(input_tickers, hedge_candidates, start_date='2020-01-01', end_da
             
             for candidate in hedge_candidates:
                 try:
-                    c_data = yf.download(candidate, start=start_date, end=end_date, progress=False)['Adj Close']
+                    c_data = yf.download(candidate, start=start_date, end=end_date, progress=False)['Close']
                     if len(c_data) < 10:
                         continue
 
